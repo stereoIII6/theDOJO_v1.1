@@ -10,6 +10,12 @@
 import { ethers } from "ethers";
 import detectEthereumProvider from "@metamask/detect-provider";
 const s0xiety = require("../build/contracts/s0xiety.json");
+const IpfsHttpClient = require("ipfs-http-client");
+const ipfs = IpfsHttpClient({
+  host: "ipfs.infura.io",
+  port: "5001",
+  protocol: "https",
+});
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 const onboardButton = document.getElementById('connectButton');
@@ -156,11 +162,16 @@ const checkMailIn = (e) => {
     if(e.target.value.length < 10 ||nowChar ===  e.target.value.length > 32) emailInput.style.borderColor = "red";
     else emailInput.style.borderColor = "mediumseagreen";
 }
+const avtIn = (e) => {}
+const colIn = (e) => {
+
+}
+const fontIn = (e) => {}
+const layIn = (e) => {}
 const onUserForm = async () => {
     const s0xDat = await s0xData();
     const account = document.getElementById('account');
-    const nameInput = document.getElementById('nameInput');
-    
+    const nameInput = document.getElementById('nameInput'); 
     const emailInput = document.getElementById('emailInput');
     const avtInput = document.getElementById('avtInput');
     const colInput = document.getElementById('colInput');
