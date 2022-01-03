@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+            integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+  <body>
+    <div class="navbar bg-dark">
+      <div class="">
+        <button class="btn-sm" id="home">
+          <%= htmlWebpackPlugin.options.title %>
+        </button>
+      </div>
+      <div class="">
+          
+          <button class="btn-sm " id="connectButton">
+              Connect
+          </button>
+          <button class="btn-sm " id="networkButton">
+              Network
+          </button>
+          <button class="btn-sm" id="walletButton">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                  <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+              </svg>
+          </button>
+          <button class="btn-sm " id="s0xButton">
+              s0xiety
+          </button>
+      </div>
+  </div>
+      <div class="jumbotron">
+          <div class="row">
+              <div class="col-6">
+                  <div class="alert-info p-2" id="account">
+                      
+                  </div>
+              </div>
+              <div class="col-6">
+                  <form id="userForm">                          
+                          <input id="nameInput" type="text" placeholder="USERNAME" class="form-control" required ></input>
+                          <input id="emailInput" type="email" placeholder="EMAIL ADDRESS" class="form-control" required ></input>
+                          <hr/>
+                          <input id="avtInput" type="file" class="form-control"></input>
+                          <select id="colInput" class="form-control" value="dark">
+                              <option id="default" name="default" value="default">Choose Color-Scheme</option>
+                              <option id="dark" name="dark" value="dark">Dark [Eco Mode]</option>
+                              <option id="light" name="light" value="light">Light</option>
+                              <option id="rainbow" name="rainbow" value="rainbow">Rainbow</option>
+                          </select>   
+                          <select id="fontInput" class="form-control">
+                              <option id="default" name="default" value="default">Choose Font-Scheme</option>
+                              <option id="bold" name="bold" value="bold">Dark</option>
+                              <option id="slim" name="slim" value="slim">Slim</option>
+                              <option id="italic" name="italic" value="italic">Italic</option>
+                          </select>  
+                          <select id="layInput" class="form-control">
+                              <option id="default" name="default" value="default">Choose Layout</option>
+                              <option id="art" name="art" value="art">Art</option>
+                              <option id="blog" name="blog" value="blog">Blog</option>
+                              <option id="music" name="music" value="music">Music</option>
+                              <option id="defi" name="defi" value="defi">Defi</option>
+                              <option id="gaming" name="gaming" value="gaming">Gaming</option>
+                          </select>             
+                          <div id="uFormButton" type="submit" class="btn btn-primary w-100">Save</div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </body>
+</html>
