@@ -18,6 +18,7 @@ const uFormButton = document.getElementById('uFormButton');
 const walletButton = document.getElementById('walletButton');
 const account = document.getElementById('account');
 const userForm = document.getElementById('userForm');
+userForm.style.display = "none";
 const iii6 = document.getElementById('iii6');
 const nameInput = document.getElementById('nameInput');
 const emailInput = document.getElementById('emailInput');
@@ -67,7 +68,7 @@ const initialize = () => {
         networkButton.innerHTML = networkTag;
         const UserData = await log();
         console.log(UserData);
-        // onboardButton.innerHTML = UserData || accounts[0].slice(0,5)+"..."+accounts[0].slice(38,42);
+        // onboardButton.innerHTML = UserData ||nowChar ===  accounts[0].slice(0,5)+"..."+accounts[0].slice(38,42);
         
         } catch (error) {
           console.error(error);
@@ -110,17 +111,19 @@ const log = async () => {
     const UserNum = await s0xDat.userNum(accounts[0]).then(result => {return result});
     if(Number(UserNum._hex) - 1 >= 0)
     {
-    const User = await s0xDat.users(Number(UserNum._hex) - 1).then(result => {return result});
-    const Profile = await s0xDat.profiles(Number(UserNum._hex) - 1).then(result => {return result});
-    const onboardButton = document.getElementById('connectButton');
-    onboardButton.innerHTML = "<img src='" + Profile.avt + "' height='16px' width='16px' /><b> "+User.name+"</b>";
-    let role;
-    if(User.role >= 50){role = "admin"} else if(User.role === 99){role = "admin"} else{role = "user"}
-    const account = document.getElementById('account');
-    const userForm = document.getElementById('userForm');
-    account.innerHTML = User.name +" <br/>"+ role +" <br/>"+ User.email +" <br/><img src='"+ Profile.avt +"' /> <br/>"+ Profile.cols +" <br/>"+ Profile.fonts +" <br/>"+ Profile.layout;
-    userForm.style.display = "none";
-    return (User.name);
+        const User = await s0xDat.users(Number(UserNum._hex) - 1).then(result => {return result});
+        const Profile = await s0xDat.profiles(Number(UserNum._hex) - 1).then(result => {return result});
+        const onboardButton = document.getElementById('connectButton');
+        onboardButton.innerHTML = "<img src='" + Profile.avt + "' height='16px' width='16px' /><b> "+User.name+"</b>";
+        let role;
+        if(User.role >= 50){role = "admin"} 
+        else if(User.role === 99){role = "admin"} 
+        else{role = "user"}
+        const account = document.getElementById('account');
+        const userForm = document.getElementById('userForm');
+        account.innerHTML = User.name +" <br/>"+ role +" <br/>"+ User.email +" <br/><img src='"+ Profile.avt +"' /> <br/>"+ Profile.cols +" <br/>"+ Profile.fonts +" <br/>"+ Profile.layout;
+        userForm.style.display = "none";
+        return (User.name);
     }
     else{
         const onboardButton = document.getElementById('connectButton');
@@ -129,20 +132,35 @@ const log = async () => {
         const uFormButton = document.getElementById('uFormButton');
         account.innerHTML = "<h2 class='p-3'>Welcome ...</h2><p class='p-3'>Please create an account by filling out the form. We believe communication is key and thats why we are bringing social features to the Block.</p><p class='p-3 pt-0'>We believe that we can make the web3 space more dynamic and interactive. For this we need each and ervery one of ya'lls help!</p>";
         userForm.style.display = "inline-block";   
+        nameInput.addEventListener('keydown',checkNameIn);
+        emailInput.addEventListener('keydown',checkMailIn);
+        nameInput.addEventListener('keyup',checkNameIn);
+        emailInput.addEventListener('keyup',checkMailIn);
         uFormButton.addEventListener("click", onUserForm);
         onboardButton.innerHTML = "<b>"+accounts[0].slice(0,5)+"..."+accounts[0].slice(38,42)+"</b>"; 
     }
 };
-const checkNameIn = () => {
-    nameInput.style.borderColor = "red";
-    console.log("a");
+const checkNameIn = (e) => {
+    let nowChar = e.target.value[e.target.value.length-1];
+    if(nowChar === "("||nowChar === ")"||nowChar === ","||nowChar === ";"||nowChar === "."||nowChar === ":"||nowChar === "&"||nowChar === "|"||nowChar === "$"||nowChar === "<"||nowChar === ">"||nowChar === "?"||nowChar === "!"||nowChar === "-"||nowChar === "+"||nowChar === "*"||nowChar === "/"||nowChar === "%") {
+        nameInput.value = nameInput.value.substring(0, nameInput.value.length - 1)
+    }
+    if(e.target.value.length < 4 ||nowChar ===  e.target.value.length > 12) nameInput.style.borderColor = "red";
+    else nameInput.style.borderColor = "mediumseagreen";  
 }
-const checkMailIn = (e) => {}
+const checkMailIn = (e) => {
+    let nowChar = e.target.value[e.target.value.length-1];
+    if(nowChar === "("||nowChar === ")"||nowChar === ","||nowChar === ";"||nowChar === ":"||nowChar === "&"||nowChar === "|"||nowChar === "$"||nowChar === "<"||nowChar === ">"||nowChar === "?"||nowChar === "!"||nowChar === "+"||nowChar === "*"||nowChar === "/"||nowChar === "%") {
+        emailInput.value = emailInput.value.substring(0, emailInput.value.length - 1)
+    }
+    if(e.target.value.length < 10 ||nowChar ===  e.target.value.length > 32) emailInput.style.borderColor = "red";
+    else emailInput.style.borderColor = "mediumseagreen";
+}
 const onUserForm = async () => {
     const s0xDat = await s0xData();
     const account = document.getElementById('account');
     const nameInput = document.getElementById('nameInput');
-    nameInput.addEventListener("change",checkNameIn);
+    
     const emailInput = document.getElementById('emailInput');
     const avtInput = document.getElementById('avtInput');
     const colInput = document.getElementById('colInput');
@@ -151,15 +169,15 @@ const onUserForm = async () => {
     // detect false inputs
     account.innerHTML = "";
     let booly = true;
-    if(nameInput.value.length < 4 || nameInput.value.length > 14) {  
+    if(nameInput.value.length < 4 ||nowChar ===  nameInput.value.length > 14) {  
         account.innerHTML += "Your name input needs to be corrected 4-12 characters <br/>"; 
         booly = false;
     }
-    if(emailInput.value.length < 10 || emailInput.value.length > 22) {  
+    if(emailInput.value.length < 10 ||nowChar ===  emailInput.value.length > 22) {  
         account.innerHTML += "Your email input needs to be corrected 10-22 characters <br/>"; 
         booly = false;     
     }
-    if(colInput.value === "default" || fontInput.value === "default" || layInput.value === "default"){
+    if(colInput.value === "default" ||nowChar ===  fontInput.value === "default" ||nowChar ===  layInput.value === "default"){
         account.innerHTML += "You have to select your prefered options <br/>"; 
         booly = false;
     }
