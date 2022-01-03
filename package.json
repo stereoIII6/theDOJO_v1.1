@@ -4,6 +4,7 @@
   "description": "",
   "main": "truffle-config.js",
   "scripts": {
+    "start": "webpack serve",
     "build": "webpack",
     "dev": "webpack serve",
     "compile": "npx truffle compile",

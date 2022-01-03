@@ -133,24 +133,37 @@ const log = async () => {
         onboardButton.innerHTML = "<b>"+accounts[0].slice(0,5)+"..."+accounts[0].slice(38,42)+"</b>"; 
     }
 };
-const checkNameIn = (chr) => {}
-const checkMailIn = (chr) => {}
+const checkNameIn = () => {
+    nameInput.style.borderColor = "red";
+    console.log("a");
+}
+const checkMailIn = (e) => {}
 const onUserForm = async () => {
     const s0xDat = await s0xData();
     const account = document.getElementById('account');
     const nameInput = document.getElementById('nameInput');
+    nameInput.addEventListener("change",checkNameIn);
     const emailInput = document.getElementById('emailInput');
     const avtInput = document.getElementById('avtInput');
     const colInput = document.getElementById('colInput');
     const fontInput = document.getElementById('fontInput');
     const layInput = document.getElementById('layInput');
     // detect false inputs
-    if(nameInput.value.length < 4 || nameInput.value.length > 14) {
-        account.innerHTML = "";
-        account.innerHTML += "Your name input needs to be corrected 4-12 characters <br/>";
-        
+    account.innerHTML = "";
+    let booly = true;
+    if(nameInput.value.length < 4 || nameInput.value.length > 14) {  
+        account.innerHTML += "Your name input needs to be corrected 4-12 characters <br/>"; 
+        booly = false;
     }
-    else {
+    if(emailInput.value.length < 10 || emailInput.value.length > 22) {  
+        account.innerHTML += "Your email input needs to be corrected 10-22 characters <br/>"; 
+        booly = false;     
+    }
+    if(colInput.value === "default" || fontInput.value === "default" || layInput.value === "default"){
+        account.innerHTML += "You have to select your prefered options <br/>"; 
+        booly = false;
+    }
+    if(booly === true) {
         account.innerHTML = nameInput.value + " <br/>" + emailInput.value + " <br/>";
     }    
 };

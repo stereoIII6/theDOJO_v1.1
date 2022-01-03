@@ -2,7 +2,6 @@
 
 ![image](./public/images/theDojoLogo.png)
 
-
 > @title      : theDOJO v1.1
 
 > @author     : stereoIII6
