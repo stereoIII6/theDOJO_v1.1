@@ -29,6 +29,7 @@ const iii6 = document.getElementById('iii6');
 const nameInput = document.getElementById('nameInput');
 const emailInput = document.getElementById('emailInput');
 const avtInput = document.getElementById('avtInput');
+const avtButton = document.getElementById('avtButton');
 const colInput = document.getElementById('colInput');
 const fontInput = document.getElementById('fontInput');
 const layInput = document.getElementById('layInput');
@@ -38,7 +39,25 @@ const layInput = document.getElementById('layInput');
 //          Init Metamask               //
 //                                      //
 //////////////////////////////////////////
+const captureFile = (e) => {
+    e.preventDefault();
+    // console.log("file captured");
+    const file = e.target.files[0];
+    const reader = new window.FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onloadend = () => {
+      // console.log("Buffer :", Buffer(reader.result));
+        const buffer = Buffer(reader.result);
+        ipfs.add(buffer).then((result, err) => {
+        console.log("Ipfs Result", result);
 
+            if (err) {
+            // console.error(err);
+            return err;
+            }
+        })
+    };
+};
 const initialize = () => {
     //Basic Actions Section
     
@@ -142,6 +161,7 @@ const log = async () => {
         emailInput.addEventListener('keydown',checkMailIn);
         nameInput.addEventListener('keyup',checkNameIn);
         emailInput.addEventListener('keyup',checkMailIn);
+        avtButton.addEventListener("click",captureFile);
         uFormButton.addEventListener("click", onUserForm);
         onboardButton.innerHTML = "<b>"+accounts[0].slice(0,5)+"..."+accounts[0].slice(38,42)+"</b>"; 
     }

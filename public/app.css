@@ -1,5 +1,5 @@
 body{background: grey;}ç
 button{width: 200px; float: right;background:mediumslateblue;border-radius: 9px; border: 0;}
-
+#avtInput, #avtButton{float:left;}
 #userForm{display: none;}
 img{max-width:300px;}
