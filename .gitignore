@@ -4,3 +4,5 @@ build
 contracts/Is0xiety.sol
 .DS_Store
 .env
+dojo_rsa
+dojo_rsa.pub
