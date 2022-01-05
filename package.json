@@ -29,8 +29,10 @@
     "bignumber": "^1.1.0",
     "dotenv": "^8.6.0",
     "ethers": "^5.5.2",
+    "gridjs": "^5.0.2",
     "ipfs-http-client": "^55.0.0",
     "mocha": "^8.2.1",
+    "sass": "^1.45.2",
     "underscore": "^1.11.0"
   },
   "devDependencies": {

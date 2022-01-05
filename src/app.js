@@ -9,13 +9,14 @@
 
 import { ethers } from "ethers";
 import detectEthereumProvider from "@metamask/detect-provider";
+const client = require('ipfs-http-client');
+
+console.log(client);
+const ipfs = client.create({host: "ipfs.infura.io",
+port: "5001",
+protocol: "https"});
 const s0xiety = require("../build/contracts/s0xiety.json");
-const IpfsHttpClient = require("ipfs-http-client");
-const ipfs = IpfsHttpClient({
-  host: "ipfs.infura.io",
-  port: "5001",
-  protocol: "https",
-});
+
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 const onboardButton = document.getElementById('connectButton');
@@ -28,36 +29,58 @@ userForm.style.display = "none";
 const iii6 = document.getElementById('iii6');
 const nameInput = document.getElementById('nameInput');
 const emailInput = document.getElementById('emailInput');
-const avtInput = document.getElementById('avtInput');
-const avtButton = document.getElementById('avtButton');
+const uploader = document.getElementById("uploader");        
+const file = document.getElementById("file");
+const submit = document.getElementById("submit");
 const colInput = document.getElementById('colInput');
 const fontInput = document.getElementById('fontInput');
 const layInput = document.getElementById('layInput');
-
+let UpBuff;
 //////////////////////////////////////////
 //                                      //
 //          Init Metamask               //
 //                                      //
 //////////////////////////////////////////
+
 const captureFile = (e) => {
-    e.preventDefault();
-    // console.log("file captured");
+    console.log("file captured",e.target.files[0]);
     const file = e.target.files[0];
     const reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
     reader.onloadend = () => {
-      // console.log("Buffer :", Buffer(reader.result));
-        const buffer = Buffer(reader.result);
-        ipfs.add(buffer).then((result, err) => {
-        console.log("Ipfs Result", result);
-
-            if (err) {
-            // console.error(err);
-            return err;
-            }
-        })
-    };
+        
+        const buffer = reader.result; 
+        UpBuff = buffer;   
+        
+    }
+    submit.innerHTML = file.name.slice(0,3)+'..'+file.name.slice(file.name.length -4, file.name.length)+' <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-upload-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0zm-.5 14.5V11h1v3.5a.5.5 0 0 1-1 0z"/></svg>';
+    uploader.addEventListener("submit",uploadAFile);
+    e.preventDefault();
 };
+const uploadAFile = async (e) => {
+    e.preventDefault();
+    
+    console.log("pushing to ipfs");
+    const result = await ipfs.add(UpBuff); 
+    console.log("Ipfs Result", result);
+    uploader.removeEventListener("submit",uploadAFile);
+    submit.innerHTML = result.path.slice(0,2)+'...'+result.path.slice(result.path.length -2, result.path.length)+' <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>';
+    submit.value = result.path;
+    uploader.addEventListener("submit",copyToClip);  
+};
+
+const copyToClip = (e) => {
+    e.preventDefault();
+
+    console.log(e.target.submit.value);
+    uploader.removeEventListener("submit",copyToClip); 
+    navigator.clipboard.writeText(e.target.submit.value).then(function() {
+        console.log('copied to clipboard !');
+      }, function(err) {
+        console.error('could not copy !', err);
+      }); 
+};
+
 const initialize = () => {
     //Basic Actions Section
     
@@ -75,6 +98,7 @@ const initialize = () => {
           // Will open the MetaMask UI
           const onboardButton = document.getElementById('connectButton');
           onboardButton.innerHTML = 'Connecting ...';
+          
           // You should disable this button while the request is pending!
           await ethereum.request({ method: 'eth_requestAccounts' });
           const accounts = await ethereum.request({ method: 'eth_accounts' });
@@ -100,6 +124,7 @@ const initialize = () => {
           const onboardButton = document.getElementById('connectButton');
           onboardButton.innerText = 'Connect';
         }
+        
     };
     const MetaMaskClientCheck = () => {
         //Now we check to see if MetaMask is installed
@@ -155,13 +180,21 @@ const log = async () => {
         const account = document.getElementById('account');
         const userForm = document.getElementById('userForm');
         const uFormButton = document.getElementById('uFormButton');
+        const pusher = document.getElementById('pusher');
         account.innerHTML = "<h2 class='p-3'>Welcome ...</h2><p class='p-3'>Please create an account by filling out the form. We believe communication is key and thats why we are bringing social features to the Block.</p><p class='p-3 pt-0'>We believe that we can make the web3 space more dynamic and interactive. For this we need each and ervery one of ya'lls help!</p>";
+        // account.style.display = "none";
         userForm.style.display = "inline-block";   
+        uploader.style.display = "inline-block";
+        file.addEventListener("change",captureFile);
+        pusher.addEventListener("click",function(){
+            file.click();
+        });
+        
+        submit.innerHTML = '...';
         nameInput.addEventListener('keydown',checkNameIn);
         emailInput.addEventListener('keydown',checkMailIn);
         nameInput.addEventListener('keyup',checkNameIn);
         emailInput.addEventListener('keyup',checkMailIn);
-        avtButton.addEventListener("click",captureFile);
         uFormButton.addEventListener("click", onUserForm);
         onboardButton.innerHTML = "<b>"+accounts[0].slice(0,5)+"..."+accounts[0].slice(38,42)+"</b>"; 
     }
@@ -193,10 +226,10 @@ const onUserForm = async () => {
     const account = document.getElementById('account');
     const nameInput = document.getElementById('nameInput'); 
     const emailInput = document.getElementById('emailInput');
-    const avtInput = document.getElementById('avtInput');
     const colInput = document.getElementById('colInput');
     const fontInput = document.getElementById('fontInput');
     const layInput = document.getElementById('layInput');
+
     // detect false inputs
     account.innerHTML = "";
     let booly = true;
@@ -225,5 +258,6 @@ const onUserForm = async () => {
 //////////////////////////////////////////
 
 document.addEventListener('DOMContentLoaded', () => {
+    uploader.style.display = "none";
     initialize();
 });

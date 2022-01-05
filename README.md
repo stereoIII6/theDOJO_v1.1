@@ -16,7 +16,7 @@
 
 > @devtech    : truffle, solidity, javascript, json, html, css 
 
-## Requirements
+## Software Requirements
 
 > NodeJS@17 & NPM@8
 
@@ -44,7 +44,9 @@ You should be ready to go !
 
 ## Initialization
 
-> You will need to open ```.conf_env``` and edit the seedphrase, admin address, and the infura api codes and 
+> You will need to open ```.conf_env``` and edit the seedphrase, admin address &
+
+> Your private infura api code from https://infura.io needs to be added inside
 
 > finally save the file as ```.env``` in the root dir.
 
@@ -106,5 +108,8 @@ You should be ready to go !
 bignumber
 dotenv
 ethers
+ipfs-http-client
+gridjs
 mocha
+sass
 underscore
