@@ -87,7 +87,14 @@ You should be ready to go !
 :: images
 ::: favicon.png // page favicon
 ::: logo.png // website logo
+:: cols
+::: dark.scss
+::: irie.scss
+::: light.scss
+::: metal.scss
+::: woody.scss
 :: app.html // source code HTML (CODE HERE)
+:: app.scss
 
 : package.json // npm config
 : package-lock.json

@@ -9,6 +9,9 @@
 
 import { ethers } from "ethers";
 import detectEthereumProvider from "@metamask/detect-provider";
+import "../public/app.scss";
+import { Grid } from "gridjs";
+// import "gridjs/dist/theme/mermaid.css";
 const client = require('ipfs-http-client');
 
 console.log(client);
