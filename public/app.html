@@ -15,48 +15,28 @@
     </head>
 
     <body id="light">
-        <header>
-            <h1 class="logo">LOGO</h1>
-            <input type="checkbox"  class="nav-toggle" id="nav-toggle"/>
-            <nav><ul>
-                <li><button>Home</button></li>
-                <li><button>About</button></li>
-                <li><button>Blog</button></li>
-                <li><button>Contact</button></li>
+        <div class="navbar">
+            <nav>
+            <h1 class="logo" id="logo"><%= htmlWebpackPlugin.options.title %></h1>
+            <button id="toggle-nav" class="toggle-nav">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul>
+                <li><button id="profile">Profile</button>
+                <button id="messages">Messages</button>
+                <button id="groups">Groups</button>
+                <button id="projects">Projects</button></li><li>
+                <input type="text" id="seek"/><button id="seek">SEarch</button></li>
+            
+                <li><button id="connectButton">Connect</button>
+                <button id="networkButton">Network</button>
+                <button id="walletButton"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                    <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+                </svg></button></li>
             </ul></nav>
-            <label for="nav-toggle" class="nav-toggle-label"><span>X</span></label>
-        </header>
-        
-    <div class="navbar bg-dark">
-      <div class="">
-        <button class="btn-sm" id="home">
-          <%= htmlWebpackPlugin.options.title %>
-        </button>
-        <button class="btn-sm " id="s0xButton">
-            s0xiety.x
-        </button>
-        <button class="btn-sm " id="s0xButton">
-            connections
-        </button>
-        <button class="btn-sm " id="s0xButton">
-            messages
-        </button>
-      </div>
-      <div class="">
-          
-          <button class="btn-sm " id="connectButton">
-              Connect
-          </button>
-          <button class="btn-sm " id="networkButton">
-              Network
-          </button>
-          <button class="btn-sm" id="walletButton">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
-                  <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
-              </svg>
-          </button>
-      </div>
-  </div>
+        </div>
       <div class="jumbotron">
           <div class="row">
               <div class="col-6">
