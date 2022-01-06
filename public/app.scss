@@ -53,7 +53,7 @@
         border-color: $lc;
     }
 }
-button{width: auto; border-radius: 9px; border: 0;}
+// button{width: auto; border-radius: 9px; border: 0;}
 #avtInput, #avtButton{float:left;}
 #userForm{display: none;}
 img{max-width:300px;}
@@ -61,4 +61,29 @@ img{max-width:300px;}
     position: absolute;
     z-index: -1;}
 #pusher,#uploader{cursor: pointer;opacity: 1}
+
+header{ background: rgba(255,155,225,0.5);  text-align:center; position: fixed; z-index:999;width: 100%;}
+nav{position: absolute; text-align: left; top: 50%;}
+nav ul {
+    margin:  0;
+    padding: 0;
+    list-style: none;
+    // display: none;
+}
+nav li {
+    margin-bottom: 1em;
+    margin-left: 1em;
+}
+nav button {
+    color: white;
+    font-size: 1.2em;
+    text-transform: uppercase;
+}
+
+.nav-toggle:checked ~ nav {
+    display: block;
+}
+.nav-toggle {display: none}
+.nav-toggle-label {position:absolute; top:0;left:0;margin-left: 1em;height:100%;display:flex;align-items: center;}
+#old{margin-top:25em;}
 
