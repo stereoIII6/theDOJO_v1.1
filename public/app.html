@@ -18,27 +18,34 @@
         <div class="navbar">
             <nav>
             <h1 class="logo" id="logo"><%= htmlWebpackPlugin.options.title %></h1>
-            <button id="toggle-nav" class="toggle-nav">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
             <ul>
-                <li><button id="profile">Profile</button>
+                <li id="links"><button id="profile">Profile</button>
                 <button id="messages">Messages</button>
                 <button id="groups">Groups</button>
-                <button id="projects">Projects</button></li><li>
-                <input type="text" id="seek"/><button id="seek">SEarch</button></li>
+                <button id="projects">Projects</button>
+                <button id="market">Market</button>
+                <button id="market">Events</button>
+            </li><li id="lookup">
+                <input type="text" id="seek"/><button id="seek">Search</button></li>
             
-                <li><button id="connectButton">Connect</button>
+                <li id="defi">
+                <button id="mlkButton">5 MLQ</button>
+                <button id="balanceButton">1 ETH</button>
+                <button id="connectButton">Connect</button>
                 <button id="networkButton">Network</button>
                 <button id="walletButton"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
                     <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
-                </svg></button></li>
+                </svg></button>
+                <button id="toggle-nav" class="toggle-nav">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </li>
             </ul></nav>
         </div>
       <div class="jumbotron">
-          <div class="row">
+          <div class="row" id="jumbo">
               <div class="col-6">
                   <div class="alert-info p-2" id="account">
                       

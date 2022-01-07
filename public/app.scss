@@ -32,7 +32,7 @@
     background: $bg;
     color: $fc;
     border-color: $sc;
-    .navbar{background: rgba($fc,0.8)}
+    .navbar{background: rgba($fc,0.3)}
     .toggle-nav .bar{background: rgba($bc,1)}
     .jumbotron{background: rgba($bc,1)}
     button{
@@ -80,6 +80,7 @@ button{width: auto; border-radius: 9px; border: 0;}
 .navbar{ text-align:center; position: fixed; z-index:999;width: 100%;height:auto;}
 nav{position: relative; text-align: left; top: 0em; left:0em; width:100%;height:auto;}
 nav ul {
+    width:100%;
     margin:  0;
     margin-top: .5em;
     padding: 0;
@@ -94,38 +95,58 @@ nav li {
     width: auto;
 }
 nav button {
-    font-size: 0.9em;
+    font-size: 0.8em;
     text-transform: uppercase;
     padding: .33em;
+    margin-left: 1em;
 }
+#links,#lookup,#defi{margin-bottom: 1em;display:flex;align-self:bottom;}
+nav button:first-child{margin-left: 0;}
 .toggle-nav{
-    position:absolute;
-    top: .5rem;
-    right: 2em;
     flex-direction: column;
     justify-content: space-between;
-    width: 42px;
-    height: 36px;
+    width: 52px;
+    height: 42px;
     background: none !important;
     display:none;
 }
 .toggle-nav .bar{
-    height:5px;
+    height:3px;
     width: 100%;   
 }
 .toggle-nav .bar:last-child{width:66%;}
 .logo{
-    top: 0.5rem;
-    left: 2em;
+    position: relative;
+    top: 0.2rem;
+    left: 0.2em;
     display: flex;
     padding: 0;
     margin: 0;
-    font-size: 0.7em;
+    font-size: 1em;
 }
-
-@media(max-width: 1024px){
-    .toggle-nav{display:flex;}
+#links,#lookup{justify-content: flex-start;}
+#jumbo{margin-top: 15em;}
+#defi{display:flex;justify-content: flex-end;margin-right: 2em;}
+@media(max-width: 1300px){
+    #jumbo{margin-top: 10em;}
     nav ul{flex-direction: column;}
     .navbar{bottom:0;}
-    nav button{font-size:1.2em}
+    nav button{font-size:0.8em}
+    .logo{text-align: right; }
+    #defi{margin-right: .5em;}   
+}
+@media(max-width:1020px){
+    #lookup{display:none;}
+}
+@media(max-width:720px){
+    #lookup{display:none;}
+    #links{display:none;}
+    .toggle-nav{display:flex;}
+}
+@media(max-width:520){
+    #lookup{display:none;}
+    #defi{display:none;}
+    nav li, nav ul, nav button{width: 100%}
+    nav button{font-size:0.8em}
+    #links{display:flex;flex-direction: column;}
 }

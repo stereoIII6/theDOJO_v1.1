@@ -26,5 +26,5 @@ module.exports = {
         hot: true,
         liveReload: true
     },
-    plugins:[new HtmlWebpackPlugin({title:"DOJO",file: "index.html", template: "public/app.html"})]
+    plugins:[new HtmlWebpackPlugin({title:"s0xiety.x",file: "index.html", template: "public/app.html"})]
 };
