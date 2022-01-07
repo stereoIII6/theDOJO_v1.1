@@ -78,6 +78,7 @@ You should be ready to go !
 
 : src // source code dir JS
 :: app.js // project Source JS (CODE HERE)
+:: three.js // 3d bg animation
 
 : migrations // blockchain migration dir
 :: 1_initial_migration.js // migration init
