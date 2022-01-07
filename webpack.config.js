@@ -5,6 +5,7 @@ module.exports = {
     mode: "development",
     entry: {
         main: path.resolve(__dirname, "src/app.js"),
+        three: path.resolve(__dirname, "src/three.js"),
     },
     output: {
         path: path.resolve(__dirname, "build"),
