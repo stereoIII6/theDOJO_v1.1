@@ -20,7 +20,7 @@
     border-color: $sc;
     .navbar{background: rgba($fc,0.8)}
     .toggle-nav .bar{background: rgba($bc,1)}
-    .jumbotron{background: rgba($bc,1)}
+    .jumbotron{background: rgba($bc,.8)}
     button{
         background: $bc;
         color: $fc;
@@ -32,9 +32,9 @@
     background: $bg;
     color: $fc;
     border-color: $sc;
-    .navbar{background: rgba($fc,0.3)}
+    .navbar{background: rgba($fc,0.8)}
     .toggle-nav .bar{background: rgba($bc,1)}
-    .jumbotron{background: rgba($bc,1)}
+    .jumbotron{background: rgba($bc,.8)}
     button{
         background: rgba($bc,0.3);
         color: $fc;
@@ -48,7 +48,7 @@
     border-color: $sc;
     .navbar{background: rgba($fc,0.8)}
     .toggle-nav .bar{background: rgba($bc,1)}
-    .jumbotron{background: rgba($bc,1)}
+    .jumbotron{background: rgba($bc,.8)}
     button{
         background: $bc;
         color: $fc;
@@ -62,7 +62,7 @@
     border-color: $sc;
     .navbar{background: rgba($fc,0.8)}
     .toggle-nav .bar{background: rgba($bc,1)}
-    .jumbotron{background: rgba($bc,1)}
+    .jumbotron{background: rgba($bc,.8)}
     button{
         background: $bc;
         color: $fc;
@@ -70,8 +70,7 @@
     }
 }
 button{width: auto; border-radius: 9px; border: 0;}
-
-
+canvas{position:fixed;top:0;left:0;z-index: -999;}
 #file{opacity: 0;
     position: absolute;
     z-index: -1;}
