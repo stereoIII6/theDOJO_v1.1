@@ -11,6 +11,7 @@ import { ethers } from "ethers";
 import detectEthereumProvider from "@metamask/detect-provider";
 import "../public/app.scss";
 import { Grid } from "gridjs";
+import {sha256} from 'crypto-hash';
 const client = require('ipfs-http-client');
 
 console.log(client);
@@ -34,6 +35,7 @@ const emailInput = document.getElementById('emailInput');
 const uploader = document.getElementById("uploader");        
 const file = document.getElementById("file");
 const submit = document.getElementById("submit");
+const fileURL = document.getElementById("fileURL");
 const colInput = document.getElementById('colInput');
 const fontInput = document.getElementById('fontInput');
 const layInput = document.getElementById('layInput');
@@ -57,7 +59,7 @@ const captureFile = (e) => {
         
     }
     submit.innerHTML = file.name.slice(0,3)+'..'+file.name.slice(file.name.length -4, file.name.length)+' <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-upload-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0zm-.5 14.5V11h1v3.5a.5.5 0 0 1-1 0z"/></svg>';
-    uploader.addEventListener("submit",uploadAFile);
+    submit.addEventListener("click",uploadAFile);
 };
 const uploadAFile = async (e) => {
     e.preventDefault();
@@ -68,6 +70,7 @@ const uploadAFile = async (e) => {
     uploader.removeEventListener("submit",uploadAFile);
     submit.innerHTML = result.path.slice(0,2)+'...'+result.path.slice(result.path.length -2, result.path.length)+' <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>';
     submit.value = result.path;
+    fileURL.value = "QmPSgAGNpg67pHZdbpPm9C4qWMwpgqyQ46ZXd6LPaVvUAp";
     uploader.addEventListener("submit",copyToClip);  
 };
 
@@ -159,18 +162,19 @@ const log = async () => {
    
     const accounts = await ethereum.request({ method: 'eth_accounts' });
     const s0xDat = await s0xData();
-    // console.log(accounts[0]); // Users Address
+    console.log(accounts[0]); // Users Address
     const UserNum = await s0xDat.userNum(accounts[0]).then(result => {return result});
     if(Number(UserNum._hex) - 1 >= 0)
     {
-        const User = await s0xDat.users(Number(UserNum._hex) - 1).then(result => {return result});
+        const User = await s0xDat.users(Number(UserNum._hex) - 1).then(result => {console.log(result);return result;});
         const Profile = await s0xDat.profiles(Number(UserNum._hex) - 1).then(result => {return result});
         const onboardButton = document.getElementById('connectButton');
         onboardButton.innerHTML = "<img src='" + Profile.avt + "' height='16px' width='16px' /><b> "+User.name+"</b>";
         let role;
-        if(User.role >= 50){role = "admin"} 
+        if(User.role >= 50){role = "mod"} 
         else if(User.role === 99){role = "admin"} 
         else{role = "user"}
+
         const account = document.getElementById('account');
         const userForm = document.getElementById('userForm');
         account.innerHTML = User.name +" <br/>"+ role +" <br/>"+ User.email +" <br/><img src='"+ Profile.avt +"' /> <br/>"+ Profile.cols +" <br/>"+ Profile.fonts +" <br/>"+ Profile.layout;
@@ -218,38 +222,38 @@ const checkMailIn = (e) => {
     else emailInput.style.borderColor = "mediumseagreen";
 }
 const avtIn = (e) => {}
-const colIn = (e) => {
-
-}
+const colIn = (e) => {}
 const fontIn = (e) => {}
 const layIn = (e) => {}
-const onUserForm = async () => {
-    const s0xDat = await s0xData();
+const onUserForm = async (e) => {
+    // let nowChar = e.target.value[e.target.value.length-1];
+    // const s0xDat = await s0xData();
     const account = document.getElementById('account');
     const nameInput = document.getElementById('nameInput'); 
     const emailInput = document.getElementById('emailInput');
     const colInput = document.getElementById('colInput');
     const fontInput = document.getElementById('fontInput');
     const layInput = document.getElementById('layInput');
-
+    const fileURL = document.getElementById('fileURL');
+     
     // detect false inputs
     account.innerHTML = "";
     let booly = true;
-    if(nameInput.value.length < 4 ||nowChar ===  nameInput.value.length > 14) {  
-        account.innerHTML += "Your name input needs to be corrected 4-12 characters <br/>"; 
-        booly = false;
-    }
-    if(emailInput.value.length < 10 ||nowChar ===  emailInput.value.length > 22) {  
-        account.innerHTML += "Your email input needs to be corrected 10-22 characters <br/>"; 
-        booly = false;     
-    }
-    if(colInput.value === "default" ||nowChar ===  fontInput.value === "default" ||nowChar ===  layInput.value === "default"){
-        account.innerHTML += "You have to select your prefered options <br/>"; 
-        booly = false;
-    }
-    if(booly === true) {
+    
         account.innerHTML = nameInput.value + " <br/>" + emailInput.value + " <br/>";
-    }    
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+        const s0xDat = await s0xData();
+        // console.log(accounts[0]); // Users Address
+        const u = await s0xDat.u().then(result => {return result});
+        const uC = (Number(u._hex));
+        const uid = await sha256(nameInput.value + "_" + emailInput.value + "_" +  uC);
+        const newUser = await s0xDat.makeUser(uid,uC,accounts[0],nameInput.value, emailInput.value).then(result => {return result;      
+        });
+        const newUserProfile = await s0xDat.makeProfile(accounts[0],fileURL.value, "irie", "arial", 3).then(result => {
+            console.log(result);
+            return result; 
+        });
+        console.log(newUser,newUserProfile);
 };
 
 

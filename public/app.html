@@ -74,10 +74,27 @@
                   </div>
               </div>
               <div class="col-3">
-                  <form id="userForm">                          
+                  <div id="userForm">                          
                           <input id="nameInput" type="text" placeholder="USERNAME" class="form-control" required ></input>
                           <input id="emailInput" type="email" placeholder="EMAIL ADDRESS" class="form-control" required ></input>
                           <hr/>
+                          <div class="form col-3" id="uploader">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-text">
+                                        <div class="btn" for="file" id="pusher" >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-symlink-fill" viewBox="0 0 16 16">
+                                                <path d="M13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2l.04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3zM2.19 3c-.24 0-.47.042-.683.12L1.5 2.98a1 1 0 0 1 1-.98h3.672a1 1 0 0 1 .707.293L7.586 3H2.19zm9.608 5.271-3.182 1.97c-.27.166-.616-.036-.616-.372V9.1s-2.571-.3-4 2.4c.571-4.8 3.143-4.8 4-4.8v-.769c0-.336.346-.538.616-.371l3.182 1.969c.27.166.27.576 0 .742z"/>
+                                             </svg>
+                                        </div>
+                                        <input type="file" id="file" name="file" />
+                                        <div class="input-group-text"> 
+                                            <button type="submit" class="btn" name="submit" id="submit"></button>
+                                        </div> 
+                                    </div>
+                                </div>   
+                            </div>
+                            <input id="fileURL" type="text" placeholder="AVATAR URL" class="form-control" required ></input> 
+                            <hr/>
                           <select id="colInput" class="form-control" value="dark">
                               <option id="dark" name="dark" value="dark">Dark [Eco Mode]</option>
                               <option id="light" name="light" value="light">Light</option>
@@ -102,7 +119,8 @@
                               <option id="gaming" name="gaming" value="gaming">Gaming</option>
                           </select>             
                           <div id="uFormButton" type="submit" class="btn btn-primary w-100">Save</div>
-                  </form>
+                        </div>
+                    </div>
               </div>
               <div class="col-6">
                   <form id="s0xForm">
@@ -119,26 +137,7 @@
                     
                 </form>
             </div>
-            <form class="col-3" id="uploader">
-                <div class="input-group mb-3">
-                    <div class="input-group-text">
-                        <div class="btn" for="file" id="pusher" >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-symlink-fill" viewBox="0 0 16 16">
-                            <path d="M13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2l.04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3zM2.19 3c-.24 0-.47.042-.683.12L1.5 2.98a1 1 0 0 1 1-.98h3.672a1 1 0 0 1 .707.293L7.586 3H2.19zm9.608 5.271-3.182 1.97c-.27.166-.616-.036-.616-.372V9.1s-2.571-.3-4 2.4c.571-4.8 3.143-4.8 4-4.8v-.769c0-.336.346-.538.616-.371l3.182 1.969c.27.166.27.576 0 .742z"/>
-                        </svg>
-                    </div>
-                    <input type="file" id="file" name="file" />
-                </div>
-                    
-                    <div class="input-group-text"> 
-                        <button type="submit" class="btn" name="submit" id="submit"></button>
-                        
-                    </input>
-                    </div>
-                    
-                  
-                </form>
-          </div>
+            
       </div>
   </body>
 </html>

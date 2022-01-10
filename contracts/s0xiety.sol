@@ -85,7 +85,7 @@ contract s0xiety {
     mapping(address => uint256) public msgSent;
 
     struct User {
-        uint256 id; // id_val
+        string id; // id_val
         uint256 cnt; // iteration val
         uint256 role; // 0 inactive, 1 noob, 2 profiler, 99 admin
         address adr;  // 0x0
@@ -152,7 +152,7 @@ contract s0xiety {
         u = 1;
         users.push(
             User({
-                id: 99999999,
+                id: "99999999",
                 cnt: u,
                 role: 99,
                 adr: admin,
@@ -169,7 +169,7 @@ contract s0xiety {
         u = u + 1;
     }
     function makeUser(
-        uint256 _id,
+        string memory _id,
         uint256 _cnt,
         address _adr,
         string memory _name,

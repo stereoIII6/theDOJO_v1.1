@@ -70,7 +70,8 @@
     }
 }
 button{width: auto; border-radius: 9px; border: 0;}
-canvas{position:fixed;top:0;left:0;z-index: -999;}
+body{margin:0;width:100%;height:100%;overflow: hidden;}
+canvas{position:fixed;top:-0%;left:-0%;z-index: -999;}
 #file{opacity: 0;
     position: absolute;
     z-index: -1;}
