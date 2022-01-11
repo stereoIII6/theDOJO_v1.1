@@ -161,7 +161,7 @@ contract s0xiety {
                 likes: 10
             })
         );
-        makeProfile(admin, "https://ipfs.io/ipfs/QmQtsogZZ29SmS98EtFHai4ZvTzkCNu81Am1aEQvbU97Vz", "light", "geo", 3);
+        makeProfile(admin, "QmQtsogZZ29SmS98EtFHai4ZvTzkCNu81Am1aEQvbU97Vz", "light", "geo", 3);
         whitelist[admin] = true;
         userNum[admin] = u;
         uBool[admin] = 1;

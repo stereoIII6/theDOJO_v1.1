@@ -76,8 +76,8 @@ canvas{position:fixed;top:-0%;left:-0%;z-index: -999;}
     position: absolute;
     z-index: -1;}
 #pusher,#uploader{cursor: pointer;opacity: 1}
-
-.navbar{ text-align:center; position: fixed; z-index:999;width: 100%;height:auto;}
+img{width:calc(100% - 2em);margin:1em;}
+.navbar{ text-align:center; position: fixed; z-index:999;width: 100%;height:auto;grid-row: 1;}
 nav{position: relative; text-align: left; top: 0em; left:0em; width:100%;height:auto;}
 nav ul {
     width:100%;
@@ -99,6 +99,7 @@ nav button {
     padding: .33em;
     margin-left: 1em;
 }
+.stage{grid-row:2/13;grid-column: 1/13;}
 #home{grid-column: 1/2;grid-row: 1;}
 #links{grid-column: 2/7;grid-row: 1;}
 #lookup{grid-column: 7/9;grid-row: 1;}
@@ -123,7 +124,16 @@ nav button:first-child{margin-left: 0;}
     margin: 0;
     font-size: 1em;
 }
-#jumbo{margin-top: 15em;}
+.body{
+    width:100%;
+    margin:  0;
+    padding-top: 0em;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+
+}
+#jumbo{margin-top: 0em;}
 #defi{margin-right: 2em;}
 #seek{width: 66%;}
 @media(max-width: 1300px){
