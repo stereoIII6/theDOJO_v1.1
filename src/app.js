@@ -10,11 +10,10 @@
 import { ethers } from "ethers";
 import detectEthereumProvider from "@metamask/detect-provider";
 import "../public/app.scss";
-import { Grid } from "gridjs";
 import {sha256} from 'crypto-hash';
-const client = require('ipfs-http-client');
 
-console.log(client);
+const client = require('ipfs-http-client');
+// console.log(client);
 const ipfs = client.create({host: "ipfs.infura.io",
 port: "5001",
 protocol: "https"});
@@ -22,6 +21,7 @@ const s0xiety = require("../build/contracts/s0xiety.json");
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
+
 const onboardButton = document.getElementById('connectButton');
 const networkButton = document.getElementById('networkButton'); 
 const uFormButton = document.getElementById('uFormButton');
@@ -29,17 +29,16 @@ const walletButton = document.getElementById('walletButton');
 const account = document.getElementById('account');
 const userForm = document.getElementById('userForm');
 userForm.style.display = "none";
-const iii6 = document.getElementById('iii6');
 const nameInput = document.getElementById('nameInput');
 const emailInput = document.getElementById('emailInput');
 const uploader = document.getElementById("uploader");        
 const file = document.getElementById("file");
 const submit = document.getElementById("submit");
 const fileURL = document.getElementById("fileURL");
-const colInput = document.getElementById('colInput');
-const fontInput = document.getElementById('fontInput');
-const layInput = document.getElementById('layInput');
-let UpBuff;
+const pusher = document.getElementById('pusher');
+
+let UpBuff; // file buffer holder 
+
 //////////////////////////////////////////
 //                                      //
 //          Init Metamask               //
@@ -52,8 +51,7 @@ const captureFile = (e) => {
     const file = e.target.files[0];
     const reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
-    reader.onloadend = () => {
-        
+    reader.onloadend = () => { 
         const buffer = reader.result; 
         UpBuff = buffer;   
         
@@ -63,7 +61,6 @@ const captureFile = (e) => {
 };
 const uploadAFile = async (e) => {
     e.preventDefault();
-    
     console.log("pushing to ipfs");
     const result = await ipfs.add(UpBuff); 
     console.log("Ipfs Result", result);
@@ -76,7 +73,6 @@ const uploadAFile = async (e) => {
 
 const copyToClip = (e) => {
     e.preventDefault();
-
     console.log(e.target.submit.value);
     uploader.removeEventListener("submit",copyToClip); 
     navigator.clipboard.writeText(e.target.submit.value).then(function() {
@@ -101,9 +97,7 @@ const initialize = () => {
     const onClickConnect = async () => {
         try {
           // Will open the MetaMask UI
-          const onboardButton = document.getElementById('connectButton');
           onboardButton.innerHTML = 'Connecting ...';
-          
           // You should disable this button while the request is pending!
           await ethereum.request({ method: 'eth_requestAccounts' });
           const accounts = await ethereum.request({ method: 'eth_accounts' });
@@ -118,15 +112,12 @@ const initialize = () => {
                             if(Number(network) === 200) networkTag =  "Arbitrum";
                             if(Number(network) === 43224) networkTag =  "Avalanche";
                             if(Number(network) === 1312) networkTag = "ACAB";
-        const networkButton = document.getElementById('networkButton'); 
         networkButton.innerHTML = networkTag;
         const UserData = await log();
         console.log(UserData);
-        // onboardButton.innerHTML = UserData ||nowChar ===  accounts[0].slice(0,5)+"..."+accounts[0].slice(38,42);
         
         } catch (error) {
           console.error(error);
-          const onboardButton = document.getElementById('connectButton');
           onboardButton.innerText = 'Connect';
         }
         
@@ -135,12 +126,10 @@ const initialize = () => {
         //Now we check to see if MetaMask is installed
         if (!isMetaMaskInstalled()) {
         //If it isn't installed we ask the user to click to install it
-        const onboardButton = document.getElementById('connectButton');
         onboardButton.innerText = 'Click here to install MetaMask!';
         onboardButton.addEventListener("click",clickInstall);
         } else {
         //If it is installed we change our button text
-        const onboardButton = document.getElementById('connectButton');
         onboardButton.innerText = 'Connect';
         onboardButton.addEventListener("click",onClickConnect);
         }
@@ -168,32 +157,24 @@ const log = async () => {
     {
         const User = await s0xDat.users(Number(UserNum._hex) - 1).then(result => {console.log(result);return result;});
         const Profile = await s0xDat.profiles(Number(UserNum._hex) - 1).then(result => {return result});
-        const onboardButton = document.getElementById('connectButton');
-        onboardButton.innerHTML = "<div class='iconic'><img src='https://ipfs.io/ipfs/" + Profile.avt + "' /></div><b> "+User.name+"</b>";
+        onboardButton.innerHTML = "<div class='iconic'><img class='iconic' src='https://ipfs.io/ipfs/" + Profile.avt + "' /></div><b> "+User.name+"</b>";
         let role;
         if(Number(User.role) === 50){role = "yellow"} 
         else if(Number(User.role) === 99){role = "red"} 
         else{role = "green"}
-
-        const account = document.getElementById('account');
-        const userForm = document.getElementById('userForm');
-        account.innerHTML = "<h1 class='name' style='color:"+ role +"'>"+User.name +"</h1>"+ User.email +" <br/><img src='https://ipfs.io/ipfs/"+ Profile.avt +"' /> <br/>"+ Profile.cols +" <br/>"+ Profile.fonts +" <br/>"+ Profile.layout;
+        document.body.id = Profile.cols.toString();
+        account.innerHTML = "<h1 class='name' style='color:"+ role +"'>"+User.name +"</h1>"+ User.id +" / " + User.name + " <br/><img class='propic' src='https://ipfs.io/ipfs/"+ Profile.avt +"' /> <br/>"+ Profile.cols +" <br/>"+ Profile.fonts +" <br/>"+ Profile.layout;
         userForm.style.display = "none";
         return (User.name);
     }
     else{
-        const onboardButton = document.getElementById('connectButton');
-        const account = document.getElementById('account');
-        const userForm = document.getElementById('userForm');
-        const uFormButton = document.getElementById('uFormButton');
-        const pusher = document.getElementById('pusher');
         account.innerHTML = "<h2 class='p-3'>Welcome ...</h2><p class='p-3'>Please create an account by filling out the form. We believe communication is key and thats why we are bringing social features to the Block.</p><p class='p-3 pt-0'>We believe that we can make the web3 space more dynamic and interactive. For this we need each and ervery one of ya'lls help!</p>";
         // account.style.display = "none";
         userForm.style.display = "inline-block";   
         uploader.style.display = "inline-block";
         file.addEventListener("change",captureFile);
         pusher.addEventListener("click",function(){
-            file.click();
+        file.click();
         });
         
         submit.innerHTML = '...';
@@ -225,17 +206,7 @@ const avtIn = (e) => {}
 const colIn = (e) => {}
 const fontIn = (e) => {}
 const layIn = (e) => {}
-const onUserForm = async (e) => {
-    // let nowChar = e.target.value[e.target.value.length-1];
-    // const s0xDat = await s0xData();
-    const account = document.getElementById('account');
-    const nameInput = document.getElementById('nameInput'); 
-    const emailInput = document.getElementById('emailInput');
-    const colInput = document.getElementById('colInput');
-    const fontInput = document.getElementById('fontInput');
-    const layInput = document.getElementById('layInput');
-    const fileURL = document.getElementById('fileURL');
-     
+const onUserForm = async (e) => {  
     // detect false inputs
     account.innerHTML = "";
     let booly = true;

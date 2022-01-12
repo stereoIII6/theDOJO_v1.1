@@ -13,13 +13,10 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
-
     <body id="light">
-        <div class="bg"></div>
         <div class="body">
         <div class="navbar">
             <nav>
- 
             <ul>
                 <li id="home"><button><%= htmlWebpackPlugin.options.title %></button></li>
                 <li id="links"><button id="profile"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-bounding-box" viewBox="0 0 16 16">
@@ -68,14 +65,8 @@
             </ul></nav>
         </div>
       <div class="stage">
-          <div id="jumbo">
-              <div class="col-6">
-                  <div class="alert-info p-2" id="account">
-                      
-                  </div>
-              </div>
-              <div class="col-3">
-                  <div id="userForm">                          
+            <div id="account"></div>
+            <div id="userForm">                          
                           <input id="nameInput" type="text" placeholder="USERNAME" class="form-control" required ></input>
                           <input id="emailInput" type="email" placeholder="EMAIL ADDRESS" class="form-control" required ></input>
                           <hr/>
@@ -120,26 +111,8 @@
                               <option id="gaming" name="gaming" value="gaming">Gaming</option>
                           </select>             
                           <div id="uFormButton" type="submit" class="btn btn-primary w-100">Save</div>
-                        </div>
                     </div>
               </div>
-              <div class="col-6">
-                  <form id="s0xForm">
-                    <input id="" type="text" placeholder="" class="form-control" required /> 
-                  </form>
-              </div>
-              <div class="col-6">
-                <form id="commentForm">
-                    
-                </form>
-            </div>
-            <div class="col-6">
-                <form id="msgForm">
-                    
-                </form>
-            </div>
-            
-      </div>
     </div>
   </body>
 </html>

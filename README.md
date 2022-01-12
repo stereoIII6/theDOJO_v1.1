@@ -40,7 +40,7 @@ You should be ready to go !
 
 > Install Repo Dependencys and Node Modules ```npm i```
 
-> fix webpack issues type ```export NODE_OPTIONS=--openssl-legacy-provider``` in root dir
+> fix webpack issues type ```export NODE_OPTIONS=--openssl-legacy-provider``` in root dir this step might have to be repeated after restarting your production environment
 
 ## Initialization
 
