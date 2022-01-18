@@ -62,53 +62,7 @@ Open Zeppelin Imports
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./Is0xiety.sol";
 
-contract s0xiety {
-    address payable admin;
-
-    // currency address vars
-    address private pETH;
-    address private pDAI;
-    IERC20 public polyETH = IERC20(pETH);
-    IERC20 public polyDAI = IERC20(pDAI);
-    uint256 public digits;
-
-    // admin lists mappings
-    mapping(address => bool) public blacklist;
-    mapping(address => uint256) public greylisted;
-    mapping(address => mapping(uint256 => uint256)) public greylist;
-    mapping(address => bool) public whitelist;
-    mapping(address => mapping(address => bool)) public following;
-    mapping(address => mapping(address => bool)) public followers;
-    mapping(address => mapping(address => mapping(uint256 => string)))
-        public message;
-    mapping(address => uint256) public msgRec;
-    mapping(address => uint256) public msgSent;
-
-    struct User {
-        string id; // id_val
-        uint256 cnt; // iteration val
-        uint256 role; // 0 inactive, 1 noob, 2 profiler, 99 admin
-        address adr;  // 0x0
-        string name; // user name
-        string email;  // user email
-        uint256 likes; // count iteration val
-    }
-    struct Profile {
-        uint256 cnt;
-        address adr;
-        string avt;
-        string cols;
-        string fonts;
-        uint256 layout;
-    }
-
-    uint256 public u;
-    User[] public users;
-    Profile[] public profiles;
-    mapping(address => uint256) public userNum;
-    mapping(address => uint256) public uBool;
-    mapping(address => uint256) public userCountByAdr;
-
+library co {
     struct Socio {
         uint256 id;
         address author;
@@ -130,28 +84,83 @@ contract s0xiety {
         address[] likedBy;
         uint256 likes;
     }
+    struct User {
+        string id; // id_val
+        uint256 cnt; // iteration val
+        uint256 role; // 0 inactive, 1 noob, 2 profiler, 99 admin
+        address adr;  // 0x0
+        string name; // user name
+        string email;  // user email
+        uint256 likes; // count iteration val
+    }
+    struct Profile {
+        uint256 cnt;
+        address adr;
+        string avt;
+        string cols;
+        string fonts;
+        uint256 layout;
+    }
+    
+}
+contract s0xiety {
+using co for *;
 
+    uint256 digits = 14;
     uint256 internal s;
-    Socio[] public socios;
+    co.Socio[] public socios;
     mapping(address => uint256) internal SocioCountOf;
     mapping(address => mapping(uint256 => uint256)) public SocioCountOfAdrById;
-    mapping(address => mapping(uint256 => Socio)) public SocioIdOfAdrByCount;
+    mapping(address => mapping(uint256 => co.Socio)) public SocioIdOfAdrByCount;
     mapping(uint256 => bool) public socioID;
     mapping(uint256 => bool) public commentID;
 
     uint256 internal c;
-    Comment[] public comments;
+    co.Comment[] public comments;
     mapping(address => uint256) internal CommentCountOf;
     mapping(address => mapping(uint256 => uint256))
         public CommentCountOfAdrById;
-    mapping(address => mapping(uint256 => Comment))
+    mapping(address => mapping(uint256 => co.Comment))
         public CommentIdOfAdrByCount;
+
+    address payable admin;
+
+    // currency address vars
+    address public pETH;
+    address public pDAI;
+    IERC20 public polyETH = IERC20(pETH);
+    IERC20 public polyDAI = IERC20(pDAI);
+    
+
+    // admin lists mappings
+    mapping(address => bool) public blacklist;
+    mapping(address => uint256) public greylisted;
+    mapping(address => mapping(uint256 => uint256)) public greylist;
+    mapping(address => bool) public whitelist;
+    mapping(address => mapping(address => bool)) public following;
+    mapping(address => mapping(address => bool)) public followers;
+    mapping(address => mapping(address => mapping(uint256 => string)))
+        public message;
+    mapping(address => uint256) public msgRec;
+    mapping(address => uint256) public msgSent;
+
+    
+
+    uint256 public u;
+    co.User[] public users;
+    co.Profile[] public profiles;
+    mapping(address => uint256) public userNum;
+    mapping(address => uint256) public uBool;
+    mapping(address => uint256) public userCountByAdr;
+    mapping(address => mapping(address => bool)) public follow;
+    address[][] public friendsList;
+
 
     constructor(address payable _admin) {
         admin = _admin;
         u = 1;
         users.push(
-            User({
+            co.User({
                 id: "99999999",
                 cnt: u,
                 role: 99,
@@ -168,6 +177,20 @@ contract s0xiety {
         userCountByAdr[admin] = u;
         u = u + 1;
     }
+    function followUser(address _adr1, address _adr2) public returns(bool){
+        follow[_adr1][_adr2] = true;
+        return true;
+    }
+    function add2fList(address _adr,uint256 _pos) public returns(bool){
+        require(_pos <= 9);
+        friendsList[userNum[msg.sender]][_pos-1] = _adr;
+        return true;
+    }
+    function friends(address _adr1, address _adr2) public view returns(bool){
+        require(follow[_adr1][_adr2] == true);
+        require(follow[_adr2][_adr1] == true);
+        return true;
+    }
     function makeUser(
         string memory _id,
         uint256 _cnt,
@@ -176,7 +199,7 @@ contract s0xiety {
         string memory _email
     ) public returns (bool) {
         users.push(
-            User({
+            co.User({
                 id: _id,
                 cnt: _cnt,
                 role: 1,
@@ -200,7 +223,7 @@ contract s0xiety {
         uint256 _layout
     ) public returns (bool) {
         profiles.push(
-            Profile({
+            co.Profile({
                 cnt: userNum[_adr],
                 adr: _adr,
                 avt: _avt,
@@ -209,7 +232,7 @@ contract s0xiety {
                 layout: _layout
             })
         );
-        User storage user = users[userNum[_adr]];
+        co.User storage user = users[userNum[_adr]];
         if(user.role != 99) user.role = user.role + 1;
         user.likes = user.likes + 10;
         users[userNum[_adr]] = user;
@@ -225,12 +248,12 @@ contract s0xiety {
         string memory _title,
         string memory _content
     ) public returns (bool) {
-        User storage user = users[userNum[msg.sender]];
+        co.User storage user = users[userNum[msg.sender]];
         require(socioID[_id] != true);
         require(user.role >= 2);
 
         socios.push(
-            Socio({
+            co.Socio({
                 id: _id,
                 author: msg.sender,
                 master: _master,
@@ -263,11 +286,11 @@ contract s0xiety {
         string memory _title,
         string memory _content
     ) public returns (bool) {
-        User storage user = users[userNum[msg.sender]];
+        co.User storage user = users[userNum[msg.sender]];
         require(commentID[_id] != true);
         require(socioID[_sid] == true);
         comments.push(
-            Comment({
+            co.Comment({
                 id: _id,
                 sid: _sid,
                 author: msg.sender,
@@ -296,7 +319,7 @@ contract s0xiety {
     ) public returns (bool) {
         require(socioID[_id] == true);
         uint256 sc = SocioCountOfAdrById[msg.sender][_id];
-        Socio storage socio = socios[sc];
+        co.Socio storage socio = socios[sc];
         socio.title = _title;
         socio.content = _content;
         socios[sc] = socio;
@@ -310,7 +333,7 @@ contract s0xiety {
     ) public returns (bool) {
         require(commentID[_id] == true);
         uint256 cc = CommentCountOfAdrById[msg.sender][_id];
-        Comment storage comment = comments[cc];
+        co.Comment storage comment = comments[cc];
         comment.title = _title;
         comment.content = _content;
         comments[cc] = comment;
@@ -320,7 +343,7 @@ contract s0xiety {
     function delSocio(uint256 _id) public returns (bool) {
         require(socioID[_id] == true);
         uint256 sc = SocioCountOfAdrById[msg.sender][_id];
-        Socio storage socio = socios[sc];
+        co.Socio storage socio = socios[sc];
         socio.title = "";
         socio.content = "";
         socios[sc] = socio;
@@ -330,7 +353,7 @@ contract s0xiety {
     function delComment(uint256 _id) public returns (bool) {
         require(commentID[_id] == true);
         uint256 cc = CommentCountOfAdrById[msg.sender][_id];
-        Comment storage comment = comments[cc];
+        co.Comment storage comment = comments[cc];
         comment.title = "";
         comment.content = "";
         comments[cc] = comment;
@@ -338,9 +361,9 @@ contract s0xiety {
     }
 
     function likeSocio(uint256 _id) public returns (bool) {
-        User storage user = users[userNum[msg.sender]];
+        co.User storage user = users[userNum[msg.sender]];
         uint256 sc = SocioCountOfAdrById[msg.sender][_id];
-        Socio storage socio = socios[sc];
+        co.Socio storage socio = socios[sc];
         require(socioID[_id] == true);
         require(user.role >= 2);
         address[] storage likedArr = socio.likedBy;
@@ -353,9 +376,9 @@ contract s0xiety {
     }
 
     function likeComment(uint256 _id) public returns (bool) {
-        User storage user = users[userNum[msg.sender]];
+        co.User storage user = users[userNum[msg.sender]];
         uint256 sc = CommentCountOfAdrById[msg.sender][_id];
-        Comment storage comment = comments[sc];
+        co.Comment storage comment = comments[sc];
         require(commentID[_id] == true);
         require(user.role >= 2);
         address[] storage likedArr = comment.likedBy;
@@ -366,25 +389,9 @@ contract s0xiety {
         users[userNum[msg.sender]] = user;
         return true;
     }
-/*
-    function showSocio(uint256 _id) public view returns (Socio memory) {
-        uint256 sc = SocioCountOfAdrById[msg.sender][_id];
-        return socios[sc];
-    }
 
-    function showComment(uint256 _id) public view returns (Comment memory) {
-        uint256 cc = CommentCountOfAdrById[msg.sender][_id];
-        return comments[cc];
-    }
 
-    function myGraph() public view returns (User memory, Profile memory) {
-        User memory you = users[userNum[msg.sender]];
-        Profile memory pro = profiles[userNum[msg.sender]];
-        return (you, pro);
-    }
-*/
-
-    function follow(address _follow) public returns (bool) {
+    function followU(address _follow) public returns (bool) {
         following[msg.sender][_follow] = true;
         followers[_follow][msg.sender] = true;
         return true;
@@ -429,16 +436,8 @@ contract s0xiety {
         polyETH.transfer(admin, _amountETH);
         require(polyDAI.balanceOf(address(this)) >= _amountDAI * digits);
         polyDAI.transfer(admin, _amountDAI);
-        require(address(this).balance >= _amountMAT * digits + 1 * 10**14);
+        require(address(this).balance >= _amountMAT * digits + 1 * digits);
         admin.transfer(_amountMAT);
-        return true;
-    }
-
-    // Withdraw Unknown Crypto ERC20
-    function withdrawUCO(address _erc) public payable returns (bool) {
-        IERC20 UCO = IERC20(_erc);
-        require(UCO.balanceOf(address(this)) >= 0);
-        UCO.transfer(admin, UCO.balanceOf(address(this)));
         return true;
     }
 }
