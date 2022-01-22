@@ -185,13 +185,21 @@ const log = async () => {
     {
         const User = await s0xDat.users(Number(UserNum._hex) - 1).then(result => {console.log(result);return result;});
         const Profile = await s0xDat.profiles(Number(UserNum._hex) - 1).then(result => {return result});
-        onboardButton.innerHTML = "<div class='iconic'><img class='iconic' src='https://ipfs.io/ipfs/" + Profile.avt + "' /></div><b> "+User.name+"</b>";
-        let role;
+
+        const fonts = ethers.utils.parseBytes32String(Profile.fonts);
+        const cols = ethers.utils.parseBytes32String(Profile.cols);
+        const id = ethers.utils.parseBytes32String(User.id);
+        const name = ethers.utils.parseBytes32String(User.name);
+        const avt = Profile.avt;
+        let role = User.role;
+        
+        onboardButton.innerHTML = "<div class='iconic'><img class='iconic' src='https://ipfs.io/ipfs/" + avt + "' /></div><b> "+name+"</b>";
+        
         if(Number(User.role) === 50){role = "yellow"} 
         else if(Number(User.role) === 99){role = "red"} 
         else{role = "green"}
         document.body.id = Profile.cols.toString();
-        account.innerHTML = "<h1 class='name' style='color:"+ role +"'>"+User.name +"</h1>"+ User.id +" / " + User.name + " <br/><img class='propic' src='https://ipfs.io/ipfs/"+ Profile.avt +"' /> <br/>"+ Profile.cols +" <br/>"+ Profile.fonts +" <br/>"+ Profile.layout;
+        account.innerHTML = "<h1 class='name' style='color:"+ role +"'>"+name +"</h1>"+id +" / " + name + " <br/><img class='propic' src='https://ipfs.io/ipfs/"+ avt +"' /> <br/>"+ cols +" <br/>"+ fonts +" <br/>"+ Profile.layout;
         userForm.style.display = "none";
         return (User.name);
     }
@@ -269,7 +277,7 @@ const goModal = (e) => {
         msgForm.style.display = "none";
         groupTab.style.display = "none";
         groupForm.style.display = "none";
-        
+
     }
     if(idCheck === "groupTab") 
     {
