@@ -70,6 +70,15 @@
     }
 }
 body{margin:0;width:100%;height:100%;overflow: auto;}
+svg{  
+    user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none;
+   pointer-events: none;
+cursor: default;
+}
 canvas{position:fixed;top:-0%;left:-0%;z-index: -999;}
 button{width: auto; border-radius: 9px; border: 0;}
 img{width:calc(100% - 2em);margin:1em;}
@@ -161,7 +170,44 @@ nav{position: relative; text-align: left; top: 0em; left:0em; width:100%;height:
                 padding: 1em;
                 margin: 1em;
             }
-
+            #modal{ 
+                width: calc(50% - 6em); 
+                height: 50%; 
+                z-index: 1000; 
+                position: absolute; 
+                top: 20%; 
+                left:25%;
+                padding:3em;
+                background:rgba(ivory,0.5);
+                display:none;
+                border-radius: 9px;
+            }
+                #close{
+                    border-radius:50%;
+                    background:tomato;
+                    border: 2px white solid;
+                    width:18px; 
+                    height: 18px;
+                    padding:-5px;
+                    color:white;
+                    text-align: center;
+                    vertical-align:top;
+                    overflow: hidden;
+                    font-size: 1.2em;
+                    font-weight: 900;
+                    position: absolute;
+                    top: -6px;
+                    right: -6px;
+                }
+                #closer{
+                    position: relative;
+                    top: -8px;
+                }
+                #msgForm,#s0xForm,#groupForm{display:none;text-align: center;}
+                    #s0xTitle{
+                        display: none;
+                    }
+                    .labeled{background: grey; width: 1.8em; height: 1.3em;padding:0em; margin:0em;}
 
 
 @media(max-width: 1300px){

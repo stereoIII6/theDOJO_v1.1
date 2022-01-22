@@ -36,6 +36,33 @@ const file = document.getElementById("file");
 const submit = document.getElementById("submit");
 const fileURL = document.getElementById("fileURL");
 const pusher = document.getElementById('pusher');
+const modal = document.getElementById('modal');
+const close = document.getElementById('close');
+let mode = true;
+let idCheck = "msgTab";
+const msgForm = document.getElementById('msgForm');
+const s0xForm = document.getElementById('s0xForm');
+const groupForm = document.getElementById('groupForm');
+const messages = document.getElementById('messages');
+const msgTab = document.getElementById('msgTab');
+const profile = document.getElementById('profile');
+const newMessage = document.getElementById('newMsg');
+const groups = document.getElementById('groups');
+const groupTab = document.getElementById('groupTab');
+const newGroup = document.getElementById('newGroup');
+const privat = document.getElementById('privat');
+const token = document.getElementById('token');
+const user = document.getElementById('user');
+const group = document.getElementById('group');
+const following = document.getElementById('following');
+const followers = document.getElementById('followers');
+const friends = document.getElementById('friends');
+const signe = document.getElementById('signed');
+const publix = document.getElementById('public');
+const s0xLabel = document.getElementById('s0xLabel');
+
+
+
 
 let UpBuff; // file buffer holder 
 
@@ -203,10 +230,6 @@ const checkMailIn = (e) => {
     if(e.target.value.length < 10 ||nowChar ===  e.target.value.length > 32) emailInput.style.borderColor = "red";
     else emailInput.style.borderColor = "mediumseagreen";
 }
-const avtIn = (e) => {}
-const colIn = (e) => {}
-const fontIn = (e) => {}
-const layIn = (e) => {}
 const onUserForm = async (e) => {  
     // detect false inputs
     account.innerHTML = "";
@@ -228,6 +251,88 @@ const onUserForm = async (e) => {
         console.log(newUser,newUserProfile);
 };
 
+const goModal = (e) => {
+    console.log(mode, idCheck);
+    let val = "none";
+    if(mode){
+        mode = !mode;
+    }
+    if(!mode) val = "block";
+    if(e.target.id === "messages") idCheck = "msgTab";
+    if(e.target.id === "groups") idCheck = "groupTab";
+    if(e.target.id === "profile") idCheck = "proTab";
+    console.log(e.target.id , idCheck);
+    if(idCheck === "msgTab") 
+    {
+        s0xForm.style.display = "none";
+        msgTab.style.display = "block";
+        msgForm.style.display = "none";
+        groupTab.style.display = "none";
+        groupForm.style.display = "none";
+        
+    }
+    if(idCheck === "groupTab") 
+    {
+        s0xForm.style.display = "none";
+        groupTab.style.display = "block";
+        groupForm.style.display = "none";
+        msgTab.style.display = "none";
+        msgForm.style.display = "none";
+    }
+    if(idCheck === "proTab") 
+    {
+        s0xForm.style.display = "block";
+        groupTab.style.display = "none";
+        groupForm.style.display = "none";
+        msgTab.style.display = "none";
+        msgForm.style.display = "none";
+        
+        privat.addEventListener("mouseenter",showLabel);
+        privat.addEventListener("mouseleave" ,hideLabel);   
+        token.addEventListener("mouseenter",showLabel);
+        token.addEventListener("mouseleave" ,hideLabel);   
+        user.addEventListener("mouseenter",showLabel);
+        user.addEventListener("mouseleave" ,hideLabel);   
+        group.addEventListener("mouseenter",showLabel);
+        group.addEventListener("mouseleave" ,hideLabel);   
+        following.addEventListener("mouseenter",showLabel);
+        following.addEventListener("mouseleave" ,hideLabel);   
+        followers.addEventListener("mouseenter",showLabel);
+        followers.addEventListener("mouseleave" ,hideLabel);   
+        friends.addEventListener("mouseenter",showLabel);
+        friends.addEventListener("mouseleave" ,hideLabel);   
+        signe.addEventListener("mouseenter",showLabel);
+        signe.addEventListener("mouseleave" ,hideLabel);   
+        publix.addEventListener("mouseenter",showLabel);
+        publix.addEventListener("mouseleave" ,hideLabel);         
+    }
+    console.log(val);
+    modal.style.display = val;
+    idCheck = e.target.id;
+};
+const showLabel = (e) => {s0xLabel.style.display = "block";s0xLabel.innerHTML = e.target.value;console.log(e.target.value);};
+const hideLabel = (e) => {s0xLabel.style.display = "none";};
+const exitModal = (e) => {
+    mode = true;
+    modal.style.display = "none";
+
+}
+const newMsgModal = (e) => {
+    msgForm.style.display = "block";
+    msgTab.style.display = "none";
+}
+const newGroupModal = (e) => {
+    groupForm.style.display = "block";
+    groupTab.style.display = "none";
+}
+
+const onMessageWrite = async (e)  => {
+    const t0x = e.target.toAdr.value;
+    const msg = e.target.msg.value;
+    const newMsg = await s0xDat.writeMessage(t0x,msg).then(result => {return result;      
+    });
+}
+
 
 //////////////////////////////////////////
 //                                      //
@@ -238,4 +343,13 @@ const onUserForm = async (e) => {
 document.addEventListener('DOMContentLoaded', () => {
     uploader.style.display = "none";
     initialize();
+    messages.addEventListener("click", goModal);
+    groups.addEventListener("click",goModal);
+    close.addEventListener("click",exitModal);
+    profile.addEventListener("click",goModal);
+    msgTab.style.display = "none";
+    groupTab.style.display = "none";
+    s0xForm.style.display = "none";
+    newMessage.addEventListener("click", newMsgModal);
+    newGroup.addEventListener("click", newGroupModal);
 });
