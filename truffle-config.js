@@ -21,7 +21,7 @@ module.exports = {
       provider: () => new HDWalletProvider(mnemonic, process.env.MUMB_URL),
       network_id: 80001,
       confirmations: 10,
-      timeoutBlocks: 200,
+      timeoutBlocks: 900,
       skipDryRun: true,
     },
     arbitrum: {
